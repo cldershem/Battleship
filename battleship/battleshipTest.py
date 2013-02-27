@@ -70,8 +70,15 @@ def getGuess(turn):
         getGuess(turn)
     else:
         guessCoords = [guess_row, guess_col]
-	print "end of getGuess" + str(guessCoords)
-	return guessCoords
+        #try:
+	    #val = int(guess_row)
+	    #val = int(guess_col)
+	#   guessCoords = [guess_row, guess_col]
+	#	print "end of getGuess" + str(guessCoords)
+	#    return guessCoords
+	#except ValueError:
+	#    print("You did not enter a number.")
+	 #   getGuess(turn)
 
 def checkGuess(guessCoords, turn):
     guess_row = guessCoords[0]-1
@@ -91,9 +98,7 @@ def checkGuess(guessCoords, turn):
             print_board(board)
             print "Game Over"
         else:
-            if (guess_row < 0 or guess_row > 4) or (guess_col < 0 or guess_col > 4):
-                print "Oops, that's not even in the ocean."
-            elif board[(guess_row)][(guess_col)] == "\033[1mX\033[0m":
+            if board[(guess_row)][(guess_col)] == "\033[1mX\033[0m":
                 print "You guessed that one already."
             else:
                 print "You missed my battleship!"
