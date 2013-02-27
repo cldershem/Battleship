@@ -59,30 +59,30 @@ def getGuess(turn):
 	getGuess(turn)
 
 def checkGuess(guessCoords, turn):
-    guess_row = guessCoords[0]
-    guess_col = guessCoords[1]
+    guess_row = guessCoords[0]-1
+    guess_col = guessCoords[1]-1
     for i in range(0,len(ships)):
         if guessCoords == ships[i]:
             print "Congratulations! You sunk my battleship!"
 	    won = "won"
             return won
         elif turn == 3:
-            print "You missed my battleship!"
+            print "You missed everytime!"
 	    print "You are out of turns!"
-            board[(guess_row-1)][(guess_col-1)] = "\033[1mX\033[0m" #marks bold x on map
+            board[(guess_row)][(guess_col)] = "\033[1mX\033[0m" #marks bold x on map
             print "Here is the answer."
             for i in range(0,len(ships)):
 		board[ships[i][0]][ships[i][1]] = "\033[1mS\033[0m"           #makrs bold s for ship on map
             print_board(board)
             print "Game Over"
         else:
-            if (guess_row < 0 or guess_row > 5) or (guess_col < 0 or guess_col > 5):
+            if (guess_row < 0 or guess_row > 4) or (guess_col < 0 or guess_col > 4):
                 print "Oops, that's not even in the ocean."
-            elif board[(guess_row-1)][(guess_col-1)] == "\033[1mX\033[0m":
+            elif board[(guess_row)][(guess_col)] == "\033[1mX\033[0m":
                 print "You guessed that one already."
             else:
                 print "You missed my battleship!"
-                board[(guess_row-1)][(guess_col-1)] = "\033[1mX\033[0m"
+                board[(guess_row)][(guess_col)] = "\033[1mX\033[0m"
 	    print str(4-turn-1) + " turns left"
 	    print_board(board)
 	    break

@@ -2,6 +2,8 @@ Known bugs:
     if you have more than one ship:
         you only need to sink one to win
         you only win if you sink the first ship
+    if out of ocean on last turn:
+        error
 
 Feature requests:
     multiplayer - working on it
