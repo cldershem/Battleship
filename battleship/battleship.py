@@ -76,7 +76,7 @@ def checkGuess(guessCoords, turn):
             print_board(board)
             print "Game Over"
         else:
-            if (guess_row < 0 or guess_row > 4) or (guess_col < 0 or guess_col > 4):
+            if (guess_row < 0 or guess_row > 5) or (guess_col < 0 or guess_col > 5):
                 print "Oops, that's not even in the ocean."
             elif board[(guess_row-1)][(guess_col-1)] == "\033[1mX\033[0m":
                 print "You guessed that one already."
