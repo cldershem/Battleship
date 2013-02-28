@@ -1,12 +1,8 @@
 Known bugs:
-    if you have more than one ship:
-        you only need to sink one to win
-        you only win if you sink the first ship
-    if out of ocean on last turn:
-        error
-    if out of ocean and then reenter:
-        error
-
+    sinking does not print new map
+    sinking a ship does not give you extra turns
+        well it does but it's a for loop so it don't matter
+    randomly ships[] will have extra numbers at end
 Feature requests:
     multiplayer - working on it
     bigger ships - most likely after multiplayer
