@@ -1,12 +1,18 @@
 Known bugs:
-    enter letters exits poorly
     randomly ships[] will have extra numbers at end
 Feature requests:
     multiplayer - working on it
     bigger ships - most likely after multiplayer
+
+Changelog
+    Sinking a ship gives you extra turns
+
 
 fixed
     sinking does not print new map
     sinking a ship does not give you extra turns
         well it does but it's a for loop so it don't matter
     printing the S for ship is causing an error - commented
+    enter letters exits poorly
+    out of ocena on last turn bug
+    sinking non-first ship bug    

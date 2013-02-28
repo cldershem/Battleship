@@ -34,22 +34,23 @@ def createShips(shipNum):
 	    ships[i] = shipCoords
 
 def startGame():
+    print "Let's play Battleship!"
+    try:
+	numShips = int(raw_input("What level (1-5, 1 is hardest)? >"))
+    except ValueError:
+	print "That is not a valid number!"
+	startGame()
+    if numShips <= 0 or numShips > 5:
+	print "That is not a valid number!"
+	startGame()
     for x in range(0,5):
 	board.append(["O"] * 5)
-    print "Let's play Battleship!"
-    numShips = int(raw_input("What level (1-5, 1 is hardest)? >"))
-    if numShips == 0 or numShips > 5:
-	print "Invalid: entry"
-	exit(0)
-    else:
-	pass
-    #print_board(board)
     createShips(numShips)
     checkTurn(4)
     	
 def getGuess(turn):
-    guess_row = input("Guess Row:")
-    guess_col = input("Guess Col:")
+    guess_row = raw_input("Guess Row:")
+    guess_col = raw_input("Guess Col:")
     if (guess_row < 1 or guess_row > 5) or (guess_col < 1 or guess_col > 5):
 	print "Oops, that's not even in the ocean."
 	return getGuess(turn)
