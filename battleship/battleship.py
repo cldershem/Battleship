@@ -45,40 +45,20 @@ def startGame():
 	pass
     print_board(board)
     createShips(numShips)
-    
-#~ def getGuess(turn):
-    #~ guess_row = input("Guess Row:")
-    #~ guess_col = input("Guess Col:")
-    #~ try:
-	#~ val = int(guess_row)
-	#~ val = int(guess_col)
-	#~ guessCoords = [guess_row, guess_col]
-	#~ return guessCoords
-    #~ except ValueError:
-	#~ print("You did not enter a number.")
-	#~ getGuess(turn)
-	
+    	
 def getGuess(turn):
-    #turn = turn
     guess_row = input("Guess Row:")
     guess_col = input("Guess Col:")
-    if (guess_row < 0 or guess_row > 4) or (guess_col < 0 or guess_col > 4):
+    if (guess_row < 1 or guess_row > 5) or (guess_col < 1 or guess_col > 5):
 	print "Oops, that's not even in the ocean."
-        #print "turn" + str(turn)
-        #print "row" + guess_row
-        #print "col" + col
-        getGuess(turn)
+	print "turn" + str(turn)
+	print "row" + str(guess_row)
+	print "col" + str(guess_col)
+	return getGuess(turn)
     else:
-        guessCoords = [guess_row, guess_col]
-        #try:
-	    #val = int(guess_row)
-	    #val = int(guess_col)
-	#   guessCoords = [guess_row, guess_col]
-	#	print "end of getGuess" + str(guessCoords)
-	#    return guessCoords
-	#except ValueError:
-	#    print("You did not enter a number.")
-	 #   getGuess(turn)
+	guessCoords = [guess_row, guess_col]
+	print "end of getGuess" + str(guessCoords)
+	return guessCoords
 
 def checkGuess(guessCoords, turn):
     guess_row = guessCoords[0]-1
