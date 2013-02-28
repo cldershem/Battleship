@@ -49,8 +49,8 @@ def startGame():
     checkTurn(4)
     	
 def getGuess(turn):
-    guess_row = raw_input("Guess Row:")
-    guess_col = raw_input("Guess Col:")
+    guess_row = int(raw_input("Guess Row:"))
+    guess_col = int(raw_input("Guess Col:"))
     if (guess_row < 1 or guess_row > 5) or (guess_col < 1 or guess_col > 5):
 	print "Oops, that's not even in the ocean."
 	return getGuess(turn)
