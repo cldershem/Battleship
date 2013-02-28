@@ -43,8 +43,9 @@ def startGame():
 	exit(0)
     else:
 	pass
-    print_board(board)
+    #print_board(board)
     createShips(numShips)
+    checkTurn(4)
     	
 def getGuess(turn):
     guess_row = input("Guess Row:")
@@ -69,17 +70,16 @@ def checkGuess(guessCoords, turn):
 	    if len(ships) > 0:
                 print "Congratulations! You sunk my battleship!"
 		board[(guess_row)][(guess_col)] = "\033[1m-\033[0m"
-		turn -= 3
-		print "TURNS MOTHA!!!!!" + str(turn)
-		break
+		turn += 3
+                checkTurn(turn)
 	    else:
 		print "Congratulations! You sunk all my battleships!"
-		return "won"
+                exit()
         else:
 	    if len(ships)-i == 1:
 		print "You missed my battleship!"
 		board[(guess_row)][(guess_col)] = "\033[1mX\033[0m"
-		while turn == 3:
+		if turn == 0:
 		    print "You missed everytime!"
 		    print "You are out of turns!"
 		    board[(guess_row)][(guess_col)] = "\033[1mX\033[0m"	#marks bold x on map
@@ -90,23 +90,20 @@ def checkGuess(guessCoords, turn):
 		    print "Game Over"
 		    exit()
 		else:
-		    print str(4-turn-1) + " turns left"
-		    print str(len(ships)) + " ships left"
-		    print_board(board)
+                    checkTurn(turn)
 	    else:
 		i += 1
-		print str(4-turn-1) + " turns left"
-		print str(len(ships)) + " ships left"
-		print_board(board)
 
-def checkTurns():
-    for turn in range(0,4):
+def checkTurn(turn):
+    if turn > 0:
+        print str(turn) + " turns left"
+	print str(len(ships)) + " ships left"
+        print_board(board)
 	print ships
 	guessCoords = getGuess(turn)
-	if checkGuess(guessCoords, turn) == "won":
-	    break
-	else:
-	    pass
+        turn -= 1
+	checkGuess(guessCoords, turn)
+    else:
+        print "Yeah, that happened."
 
 startGame()
-checkTurns()

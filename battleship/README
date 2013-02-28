@@ -1,8 +1,12 @@
 Known bugs:
-    sinking does not print new map
-    sinking a ship does not give you extra turns
-        well it does but it's a for loop so it don't matter
+    enter letters exits poorly
     randomly ships[] will have extra numbers at end
 Feature requests:
     multiplayer - working on it
     bigger ships - most likely after multiplayer
+
+fixed
+    sinking does not print new map
+    sinking a ship does not give you extra turns
+        well it does but it's a for loop so it don't matter
+    printing the S for ship is causing an error - commented
