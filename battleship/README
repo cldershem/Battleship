@@ -3,10 +3,13 @@ Known bugs:
 Feature requests:
     multiplayer - working on it
     bigger ships - most likely after multiplayer
+        bigger board
+    Play again?
+    difficulty - number of ships, length, etc
 
 Changelog
     Sinking a ship gives you extra turns
-
+    changed level to how many ships
 
 fixed
     sinking does not print new map

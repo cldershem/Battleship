@@ -36,14 +36,14 @@ def createShips(shipNum):
 def startGame():
     print "Let's play Battleship!"
     try:
-	numShips = int(raw_input("What level (1-5, 1 is hardest)? >"))
+	numShips = int(raw_input("How many ships (1-5)? >"))
     except ValueError:
 	print "That is not a valid number!"
 	startGame()
     if numShips <= 0 or numShips > 5:
 	print "That is not a valid number!"
 	startGame()
-    for x in range(0,5):
+    for i in range(0,5):
 	board.append(["O"] * 5)
     createShips(numShips)
     checkTurn(4)
