@@ -6,6 +6,21 @@ Feature requests:
         bigger board
     Play again?
     difficulty - number of ships, length, etc
+    clean up screen (clear, center?)
+        import os
+        os.system('clear')
+        os.system('cls')
+        pause responses?
+            move them right?
+            move them to the bottom?
+        color
+        create box around board
+            **********
+        use @ or # instead of O on board
+        wrap responses
+            ##########
+            make each turn clear
+    documentation
 
 Changelog
     Sinking a ship gives you extra turns
@@ -17,7 +32,7 @@ fixed
         well it does but it's a for loop so it don't matter
     printing the S for ship is causing an error - commented
     enter letters exits poorly
-    out of ocena on last turn bug
+    out of ocean on last turn bug
     sinking non-first ship bug    
     always out of ocean bug
 
