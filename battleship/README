@@ -1,10 +1,10 @@
 Known bugs:
     randomly ships[] will have extra numbers at end
+    
 Feature requests:
     multiplayer - working on it
     bigger ships - most likely after multiplayer
         bigger board
-    Play again?
     difficulty - number of ships, length, etc
     clean up screen (clear, center?)
         import os
@@ -14,9 +14,6 @@ Feature requests:
             move them right?
             move them to the bottom?
         color
-        create box around board
-            **********
-        use @ or # instead of O on board
         wrap responses
             ##########
             make each turn clear
@@ -25,14 +22,17 @@ Feature requests:
 Changelog
     Sinking a ship gives you extra turns
     changed level to how many ships
-
+    added box around board
+    added box around responses
+    added play again function
+    made board have ~ for waves instead of O for ocean
+    
 fixed
     sinking does not print new map
     sinking a ship does not give you extra turns
-        well it does but it's a for loop so it don't matter
     printing the S for ship is causing an error - commented
     enter letters exits poorly
     out of ocean on last turn bug
     sinking non-first ship bug    
     always out of ocean bug
-
+    Error on game over with a ship in row or column 5 bug
