@@ -1,13 +1,20 @@
+#!/usr/bin/python
 import random
+#import time
+import os
 
 board = []
 ships = []
 
 def main():
+    os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] ) #clears terminal window
     printBox("Let's play battleship!")
     startGame()
 
 def printBox(printOut):
+    """
+    This prints things out with a box around them.
+    """
     print "#" * 50
     #print "#" * (len(printOut)+30)
     #print "%s" % printOut
@@ -36,7 +43,7 @@ def createShips(shipNum):
 	if len(ships) >= 1:
 	    for new_i in range(0,len(ships)):
 		if shipCoords == ships[new_i]:
-		    print "stupid ships match"
+		    del ships[0:len(ships)]
 		    createShips(shipNum)
 		else:
 		    ships.append(i)
@@ -65,7 +72,16 @@ def startGame():
 def getGuess(turn):
     guess_row = int(raw_input("Guess Row:"))
     guess_col = int(raw_input("Guess Col:"))
-    if (guess_row < 1 or guess_row > 5) or (guess_col < 1 or guess_col > 5):
+    #~ try:
+	#~ guess_row = int(raw_input("Guess Row:"))
+	#~ guess_col = int(raw_input("Guess Col:"))
+    #~ except TypeError:
+	#~ printBox("That is not a valid number!")
+	#~ getGuess(turn)
+    #~ else:
+	#~ print "HEY! Something worked!!!!! (meaning it didn't"
+    if (guess_row < 1 or guess_row > 5) or (guess_col < 1 or 
+					    guess_col > 5):
 	printBox("Oops, that's not even in the ocean.")
 	return getGuess(turn)
     elif board[(guess_row-1)][(guess_col-1)] == "\033[1mX\033[0m":
@@ -93,6 +109,7 @@ def checkGuess(guessCoords, turn):
 		playAgain()
         else:
 	    if len(ships)-i == 1:
+		#time.sleep(1)
 		printBox("You missed my battleship!")
 		board[(guess_row)][(guess_col)] = "\033[1mX\033[0m"
 		if turn == 0:
@@ -101,7 +118,7 @@ def checkGuess(guessCoords, turn):
 		    board[(guess_row)][(guess_col)] = "\033[1mX\033[0m"	#marks bold x on map
 		    printBox("Here is the answer.")
 		    for i in range(0,len(ships)):
-			board[ships[i][0]-1][ships[i][1]-1] = "\033[1mS\033[0m"		#marks bold s for ship on map
+			board[ships[i][0]-1][ships[i][1]-1] = "\033[1mS\033[0m"	#marks bold s for ship on map
 		    print_board(board)
 		    printBox("Game Over")
 		    #exit()

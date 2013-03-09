@@ -1,22 +1,18 @@
 Known bugs:
-    randomly ships[] will have extra numbers at end
+    fixed randomly ships[] will have extra numbers at end
+    Hitting enter or up during guess causes error
     
 Feature requests:
-    multiplayer - working on it
+    multiplayer
     bigger ships - most likely after multiplayer
         bigger board
     difficulty - number of ships, length, etc
-    clean up screen (clear, center?)
-        import os
-        os.system('clear')
-        os.system('cls')
+    clean up screen
         pause responses?
             move them right?
             move them to the bottom?
         color
-        wrap responses
-            ##########
-            make each turn clear
+        make each turn clear
     documentation
 
 Changelog
@@ -26,6 +22,7 @@ Changelog
     added box around responses
     added play again function
     made board have ~ for waves instead of O for ocean
+    added clear screen
     
 fixed
     sinking does not print new map
