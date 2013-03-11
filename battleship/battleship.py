@@ -56,32 +56,30 @@ def createShips(shipNum):
 def startGame():
     del board[0:len(board)]
     del ships[0:len(ships)]
-    try:
-	numShips = int(raw_input("How many ships (1-5)? >"))
-    except ValueError:
-	printBox("That is not a valid number!")
-	startGame()
+    while True:
+	try:
+	    numShips = int(raw_input("How many ships (1-5)? >"))
+	    break
+	except (ValueError, TypeError):
+	    printBox("That is not a valid number!")
     if numShips <= 0 or numShips > 5:
 	printBox("That is not a valid number!")
 	startGame()
-    for i in range(0,5):
-	board.append(["~"] * 5)
-    createShips(numShips)
-    checkTurn(4)
+    else:
+	for i in range(0,5):
+	    board.append(["~"] * 5)
+	createShips(numShips)
+	checkTurn(4)
     	
 def getGuess(turn):
-    guess_row = int(raw_input("Guess Row:"))
-    guess_col = int(raw_input("Guess Col:"))
-    #~ try:
-	#~ guess_row = int(raw_input("Guess Row:"))
-	#~ guess_col = int(raw_input("Guess Col:"))
-    #~ except TypeError:
-	#~ printBox("That is not a valid number!")
-	#~ getGuess(turn)
-    #~ else:
-	#~ print "HEY! Something worked!!!!! (meaning it didn't"
-    if (guess_row < 1 or guess_row > 5) or (guess_col < 1 or 
-					    guess_col > 5):
+    while True:
+	try:
+	    guess_row = int(raw_input("Guess Row:"))
+	    guess_col = int(raw_input("Guess Col:"))
+	    break
+	except (TypeError, ValueError):
+	    printBox("That is not a valid number!")
+    if (guess_row < 1 or guess_row > 5) or (guess_col < 1 or guess_col > 5):
 	printBox("Oops, that's not even in the ocean.")
 	return getGuess(turn)
     elif board[(guess_row-1)][(guess_col-1)] == "\033[1mX\033[0m":
