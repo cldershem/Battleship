@@ -1,5 +1,4 @@
 Known bugs:
-    randomly ships[] will have extra numbers at end
     
 Feature requests:
     multiplayer
@@ -32,4 +31,5 @@ fixed
     sinking non-first ship bug    
     always out of ocean bug
     Error on game over with a ship in row or column 5 bug
-    error when entering a non number.
+    error when entering a non number
+    randomly ships[] will have extra numbers at end
