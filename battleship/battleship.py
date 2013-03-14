@@ -4,20 +4,39 @@ import logging
 
 board = []
 ships = []
-boardSize = 5
-maxShips = 5
-turns = 4
-#level = {"level", [boardSize, maxShips, turns]}
+levels = {  
+            "Easy": {   "boardSize": 5,
+                        "maxShips": 5,
+                        "turns": 4,
+                        "minShipSize": 1,
+                        "maxShipSize": 3},
+            "Medium": { "boardSize": 5,
+                        "maxShips": 7,
+                        "turns": 4,
+                        "minShipSize": 1,
+                        "maxShipSize": 3},
+            "Hard": {   "boardSize": 10,
+                        "maxShips": 10,
+                        "turns": 4,
+                        "minShipSize": 2,
+                        "maxShipSize": 5},
+            }
 
+cheat = True
 debug = True
-
-if debug == True:
-    logging.basicConfig(level=logging.DEBUG, format=
-                            '%(asctime)s - %(levelname)s - %(message)s')
+level = "Easy"
+boardSize = levels[level]["boardSize"]
+maxShips = levels[level]["maxShips"]
+turns = levels[level]["turns"]
+minShipSize = levels[level]["minShipSize"]
+maxShipSize = levels[level]["maxShipSize"]
 
 def main():
     os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] ) #clears terminal window
     printBox("Let's play battleship!")
+    if debug == True:
+        logging.basicConfig(level=logging.DEBUG, format=
+                            '%(asctime)s - %(levelname)s - %(message)s')
     startGame()
 
 def printBox(printOut):
@@ -134,7 +153,8 @@ def checkTurn(turn):
         print_board(board)
         printBox(str(turn) + " turns left")
         printBox(str(len(ships)) + " ships left")
-        print ships
+        if cheat == True:
+            print ships
         guessCoords = getGuess(turn)
         turn -= 1
         checkGuess(guessCoords, turn)
