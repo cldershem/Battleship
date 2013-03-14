@@ -10,6 +10,9 @@ Feature requests:
     documentation
 
 Changelog
+    add configuration options
+    added debugging logs
+    bug fixes
     Sinking a ship gives you extra turns
     changed level to how many ships
     added box around board
