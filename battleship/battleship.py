@@ -65,7 +65,7 @@ def createShips(shipNum):
     while len(ships) < shipNum:
         ship_row = random.randint(1,boardSize)
         ship_col = random.randint(1,boardSize)
-        shipCoords = [ship_row, ship_col]
+        shipCoords = (ship_row, ship_col)
         ships.append(shipCoords)
         if len(ships) > 0:
             for ship in ships[:-1]:
@@ -109,7 +109,7 @@ def getGuess(turn):
         printBox("You guessed that one already.")
         return getGuess(turn)
     else:
-        guessCoords = [guess_row, guess_col]
+        guessCoords = (guess_row, guess_col)
         return guessCoords
 
 def checkGuess(guessCoords, turn):

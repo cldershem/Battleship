@@ -1,5 +1,7 @@
 Known bugs:
-    
+    if guess is already hit
+        "you missed"
+        
 Feature requests:
     multiplayer
     bigger ships - most likely after multiplayer
