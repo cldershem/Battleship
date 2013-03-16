@@ -1,8 +1,8 @@
 import random
 
-boardSize = 9
+boardSize = 
 ships = []
-shipNum = 9
+shipNum = 5
 singleShip = False
 
 def main(shipNum):
