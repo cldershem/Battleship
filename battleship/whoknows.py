@@ -1,11 +1,12 @@
 import random
 
-boardSize = 5
+boardSize = 9
 ships = []
-shipNum = 5
+shipNum = 9
+singleShip = False
 
 def main(shipNum):
-    makeShips(shipNum)
+    createShipFleet(shipNum)
     count = 1
     for ship in ships:
         print("ship %i %s" % (count, ship))
@@ -39,29 +40,58 @@ class Ship(object):
                     (currentShipCoord[0] < 0) or 
                     (currentShipCoord[1] > boardSize) or 
                     (currentShipCoord[1] < 0)):
+                    shipSize = len(currentShip)
                     currentShip = []
+                    return shipSize
                     break
             for ship in ships:
                 for shipCoord in ship:
                     if currentShip and shipCoord in currentShip:
+                        shipSize = len(currentShip)
                         currentShip = []
+                        return shipSize
                         break
                     elif not currentShip:
                         break
             if currentShip:
                 ships.append(currentShip)
+                isError = 0
+                return isError
+                
+    def createSingleShips(self, shipNum):
+        pass
+        while len(ships) < shipNum:
+            ship_row = random.randint(1,boardSize)
+            ship_col = random.randint(1,boardSize)
+            shipCoords = (ship_row, ship_col)
+            ships.append(shipCoords)
+            if len(ships) > 0:
+                for ship in ships[:-1]:
+                    if ships[-1] == ship:
+                        ships.pop()
+                    else:
+                        pass
+        if shipNum != len(ships):
+            logging.warning("extra numbers in ships")
 
-def makeShips(shipNum):
+def createShipFleet(shipNum):
     shipSize = 2
     while len(ships) < shipNum:
-        if shipSize < 5:
+        if singleShip == True:
+            ship = Ship(shipNum)
+            Ship.createSingleShips(ship, shipNum)
+            break
+        elif shipSize < 5:
             ship = Ship(shipSize)
-            Ship.createMultiShips(ship, shipSize)
-            shipSize += 1
+            isError = Ship.createMultiShips(ship, shipSize)
+            if isError != 0:
+                shipSize = isError
+            else:
+                shipSize += 1
         elif shipSize >= 5:
             shipSize = 4
             ship = Ship(shipSize)
             Ship.createMultiShips(ship, shipSize)
 
+
 main(shipNum)
-print ships

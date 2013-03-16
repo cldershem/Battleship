@@ -6,7 +6,7 @@ class Player(object):
     board = []
     ships = []
     turns = 
-#~ 
+
 class Ship(object):
     size = ["1","2","3","4"] # range?
     orientation = ["vertical", "horizontal"]
@@ -28,3 +28,40 @@ class Ship(object):
 boardSize = 5
 ships = []
 
+#numbers can never go negative
+#find if ships collide
+#player has board, ships
+#strikethrough to show linked?
+#for guess in ships:
+# if hit:
+# ships[guess] = "hit"
+
+#~ def fuckme():
+            #~ if currentShipCoord in currentShip[range(0,len(currentShip)]
+            #~ ships.append(currentShip)
+            #~ checkErrors = Ship(shipSize)
+            #~ isShipError = Ship.checkShipErrors(checkErrors)
+            #~ if isShipError == True:
+                #~ renewShip = Ship(shipSize)
+                #~ Ship.createMultiShips(renewShip, shipSize)
+            #~ else:
+                #~ pass
+        
+    #~ def checkShipErrors(shipSize):
+        #~ shipCoordList = []
+        #~ duplicate = []
+        #~ if len(ships) > 1:
+            #~ for ship in ships:
+                #~ for shipCoords in ship:
+                    #~ shipCoordList.append(shipCoords)
+                    #~ coordOccurance = shipCoordList.count(shipCoords)
+                    #~ print coordOccurance
+                    #~ if coordOccurance != 1:
+                        #~ del ships[:-1]
+                        #~ duplicate.append(shipCoords)
+                        #~ print "Fucking Duplicate" *2
+                        #~ print duplicate
+                        #~ return True
+                    #~ else:
+                        #~ print "All clear"
+                        #~ return False
