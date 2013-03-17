@@ -1,67 +1,103 @@
 import random
 
-
-class Player(object):
-    name = ["Player1", "Player2", "Single Player", realName]
-    board = []
-    ships = []
-    turns = 
-
-class Ship(object):
-    size = ["1","2","3","4"] # range?
-    orientation = ["vertical", "horizontal"]
-    state = ["unharmed", "damaged", "sunk"]
-    bowCoords = [,]
-    
-    def __init__(self):
-        pass
-    
-    def creatShips(self):
-        shipSize = range(0,shipNum)
-        shipOrientation = random.randint(0,5)
-        #emptyOcean = available spots on board taking size, oritientation, other ships in account
-        ship_row = random.randint(1,boardSize)
-        ship_col = random.randint(1,boardSize)
-        state = "unharmed"
-        ships.append(shipSize, shipOrientation, state, shipCoords)
-
 boardSize = 5
 ships = []
+shipNum = 5
+singleShip = False
 
-#numbers can never go negative
-#find if ships collide
-#player has board, ships
-#strikethrough to show linked?
-#for guess in ships:
-# if hit:
-# ships[guess] = "hit"
+def main(shipNum):
+    createShipFleet(shipNum)
+    count = 1
+    for ship in ships:
+        print("ship %i %s" % (count, ship))
+        count += 1
 
-#~ def fuckme():
-            #~ if currentShipCoord in currentShip[range(0,len(currentShip)]
-            #~ ships.append(currentShip)
-            #~ checkErrors = Ship(shipSize)
-            #~ isShipError = Ship.checkShipErrors(checkErrors)
-            #~ if isShipError == True:
-                #~ renewShip = Ship(shipSize)
-                #~ Ship.createMultiShips(renewShip, shipSize)
-            #~ else:
-                #~ pass
-        
-    #~ def checkShipErrors(shipSize):
-        #~ shipCoordList = []
-        #~ duplicate = []
-        #~ if len(ships) > 1:
-            #~ for ship in ships:
-                #~ for shipCoords in ship:
-                    #~ shipCoordList.append(shipCoords)
-                    #~ coordOccurance = shipCoordList.count(shipCoords)
-                    #~ print coordOccurance
-                    #~ if coordOccurance != 1:
-                        #~ del ships[:-1]
-                        #~ duplicate.append(shipCoords)
-                        #~ print "Fucking Duplicate" *2
-                        #~ print duplicate
-                        #~ return True
-                    #~ else:
-                        #~ print "All clear"
-                        #~ return False
+class Player(object):
+    #~ name = ["Player1", "Player2", "Single Player", "realName"]
+    #~ board = []
+    #~ ships = []
+    #~ turns = "x"
+    pass
+
+def createMultiShips(shipSize):
+    currentShip = []
+    shipOrientation = random.choice(["N", "E", "S", "W"])
+    ship_row = random.randint(1,boardSize)
+    ship_col = random.randint(1,boardSize)
+    shipBow = (ship_row, ship_col)
+    currentShip.append(shipBow)
+    while len(currentShip) < shipSize:
+        if shipOrientation == "N":
+            currentShip.append((currentShip[-1][0],currentShip[-1][1]-1))
+        elif shipOrientation == "E":
+            currentShip.append((currentShip[-1][0]+1,currentShip[-1][1]))
+        elif shipOrientation == "S":
+            currentShip.append((currentShip[-1][0],currentShip[-1][1]+1))
+        elif shipOrientation == "W":
+            currentShip.append((currentShip[-1][0]-1,currentShip[-1][1]))
+        else:
+            logging.debug("Fuck")
+    else: #check for duplicates/out of ocean, then append to ships
+        for currentShipCoord in currentShip:
+            if ((currentShipCoord[0] > boardSize) or 
+                (currentShipCoord[0] < 0) or 
+                (currentShipCoord[1] > boardSize) or 
+                (currentShipCoord[1] < 0)):
+                shipSize = len(currentShip)
+                currentShip = []
+                return shipSize
+                break
+        for ship in ships:
+            for shipCoord in ship:
+                if currentShip and shipCoord in currentShip:
+                    shipSize = len(currentShip)
+                    currentShip = []
+                    return shipSize
+                    break
+                elif not currentShip:
+                    break
+        if currentShip:
+            ships.append(currentShip)
+            isError = 0
+            return isError
+            
+def createSingleShips(shipNum):
+    pass
+    while len(ships) < shipNum:
+        ship_row = random.randint(1,boardSize)
+        ship_col = random.randint(1,boardSize)
+        shipCoords = (ship_row, ship_col)
+        ships.append(shipCoords)
+        if len(ships) > 0:
+            for ship in ships[:-1]:
+                if ships[-1] == ship:
+                    ships.pop()
+                else:
+                    pass
+    if shipNum != len(ships):
+        logging.warning("extra numbers in ships")
+
+def createShipFleet(shipNum):
+    shipSize = 2
+    while len(ships) < shipNum:
+        if singleShip == True:
+            #ship = Ship(shipNum)
+            #Ship.createSingleShips(ship, shipNum)
+            createSingleShips(shipNum)
+            break
+        elif shipSize < 5:
+            #ship = Ship(shipSize)
+            #isError = Ship.createMultiShips(ship, shipSize)
+            isError = createMultiShips(shipSize)
+            if isError != 0:
+                shipSize = isError
+            else:
+                shipSize += 1
+        elif shipSize >= 5:
+            shipSize = 4
+            #ship = Ship(shipSize)
+            #Ship.createMultiShips(ship, shipSize)
+            createMultiShips(shipSize)
+
+
+main(shipNum)

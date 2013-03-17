@@ -115,7 +115,6 @@ def getGuess(turn):
 def checkGuess(guessCoords, turn):
     guess_row = guessCoords[0]-1
     guess_col = guessCoords[1]-1
-    logging.debug("Before %s"%ships)
     for i in range(0,len(ships)):
         if guessCoords == ships[i]:
             del ships[i]
