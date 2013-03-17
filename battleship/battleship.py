@@ -33,9 +33,9 @@ levels = {
                         "maxShipSize": 5},
             }
 
-cheat = True
+cheat = False
 debug = False
-level = "Test"
+level = "Medium"
 boardSize = levels[level]["boardSize"]
 maxShips = levels[level]["maxShips"]
 turns = levels[level]["turns"]
