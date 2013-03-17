@@ -5,33 +5,43 @@ import logging
 board = []
 ships = []
 shipsSunk = []
+shipNames = {   "2": "Patrol Boat",
+                "3": "Submarine",
+                "4": "Battleship",
+                "5": "Aircraft Carrier",
+            }
 levels = {  
             "Easy": {   "boardSize": 5,
                         "maxShips": 5,
                         "turns": 4,
-                        "minShipSize": 1,
-                        "maxShipSize": 3},
-            "Medium": { "boardSize": 5,
+                        "minShipSize": 2,
+                        "maxShipSize": 5},
+            "Medium": { "boardSize": 9,
                         "maxShips": 7,
                         "turns": 4,
-                        "minShipSize": 1,
-                        "maxShipSize": 3},
-            "Hard": {   "boardSize": 10,
-                        "maxShips": 10,
+                        "minShipSize": 2,
+                        "maxShipSize": 5},
+            "Hard": {   "boardSize": 9,
+                        "maxShips": 5,
+                        "turns": 4,
+                        "minShipSize": 2,
+                        "maxShipSize": 5},
+            "Test": {   "boardSize": 5,
+                        "maxShips": 5,
                         "turns": 4,
                         "minShipSize": 2,
                         "maxShipSize": 5},
             }
 
 cheat = True
-debug = True
-singleShip = False
+debug = False
 level = "Easy"
 boardSize = levels[level]["boardSize"]
 maxShips = levels[level]["maxShips"]
 turns = levels[level]["turns"]
 minShipSize = levels[level]["minShipSize"]
 maxShipSize = levels[level]["maxShipSize"]
+shipNum = 5#levels[level]["maxShips"]
 
 def main():
     os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] ) #clears terminal window
@@ -50,18 +60,22 @@ def printBox(printOut):
     print "#" * 80
 
 def print_board(board):
-    print "*" * 15
+    if boardSize == 5:
+        boarderLength = 15
+    elif boardSize == 9:
+        boarderLength = 23
+    print "*" * boarderLength
     headerRow = []
     count = 1
-    for x in board:
-            headerRow.append("%s" % count)
-            count += 1
+    for col in board:
+        headerRow.append("%s" % count)
+        count += 1
     print "*   " + " ".join(headerRow) + " *"
     count = 1
     for row in board:
-            print "* " + str(count) + " " + " ".join(row) + " *"
-            count += 1
-    print "*" * 15
+        print "* " + str(count) + " " + " ".join(row) + " *"
+        count += 1
+    print "*" * boarderLength
 
 def createMultiShips(shipSize):
     currentShip = []
@@ -104,61 +118,36 @@ def createMultiShips(shipSize):
             ships.append(currentShip)
             isError = 0
             return isError
-            
-def createSingleShips(shipNum):
-    while len(ships) < shipNum:
-        ship_row = random.randint(1,boardSize)
-        ship_col = random.randint(1,boardSize)
-        shipCoords = (ship_row, ship_col)
-        ships.append(shipCoords)
-        if len(ships) > 0:
-            for ship in ships[:-1]:
-                if ships[-1] == ship:
-                    ships.pop()
-                else:
-                    pass
-    if shipNum != len(ships):
-        logging.warning("extra numbers in ships")
 
 def createShipFleet(shipNum):
-    shipSize = 2
+    shipSize = minShipSize
     while len(ships) < shipNum:
-        if singleShip == True:
-            #ship = Ship(shipNum)
-            #Ship.createSingleShips(ship, shipNum)
-            createSingleShips(shipNum)
-            break
-        elif shipSize < 5:
-            #ship = Ship(shipSize)
-            #isError = Ship.createMultiShips(ship, shipSize)
+        if shipSize < maxShipSize:
             isError = createMultiShips(shipSize)
             if isError != 0:
                 shipSize = isError
             else:
                 shipSize += 1
-        elif shipSize >= 5:
-            shipSize = 4
-            #ship = Ship(shipSize)
-            #Ship.createMultiShips(ship, shipSize)
+        elif shipSize >= maxShipSize:
             createMultiShips(shipSize)
 
 def startGame():
     del board[0:len(board)]
     del ships[0:len(ships)]
-    while True:
-        try:
-            numShips = int(raw_input("How many ships (1-%i)? >" % maxShips))
-            break
-        except (ValueError, TypeError):
-            printBox("That is not a valid number!")
-    if numShips <= 0 or numShips > maxShips:
-        printBox("That is not a valid number!")
-        startGame()
-    else:
-        for i in range(0,boardSize):
-            board.append(["~"] * boardSize)
-        createShipFleet(numShips)
-        checkTurn(turns)
+    #~ while True:
+        #~ try:
+            #~ shipNum = int(raw_input("How many ships (1-%i)? >" % maxShips))
+            #~ break
+        #~ except (ValueError, TypeError):
+            #~ printBox("That is not a valid number!")
+    #~ if shipNum <= 0 or shipNum > maxShips:
+        #~ printBox("That is not a valid number!")
+        #~ startGame()
+    #~ else:
+    for i in range(0,boardSize):
+        board.append(["~"] * boardSize)
+    createShipFleet(shipNum)
+    checkTurn(turns)
         
 def getGuess(turn):
     while True:
@@ -171,9 +160,7 @@ def getGuess(turn):
     if (guess_row < 1 or guess_row > boardSize) or (guess_col < 1 or guess_col > boardSize):
         printBox("Oops, that's not even in the ocean.")
         return getGuess(turn)
-    elif ((board[(guess_row-1)][(guess_col-1)] == "\033[1mX\033[0m") or 
-        (board[(guess_row-1)][(guess_col-1)] == "\033[1m@\033[0m") or 
-        (board[(guess_row-1)][(guess_col-1)] == "\033[1m/\033[0m")):
+    elif (board[(guess_row-1)][(guess_col-1)] != "~"):
         printBox("You guessed that one already.")
         return getGuess(turn)
     else:
@@ -185,24 +172,29 @@ def checkGuess(guessCoords, turn):
     guess_col = (guessCoords[1]-1)
     isHit = [shipCoord for ship in ships for shipCoord in ship if shipCoord == guessCoords]
     if isHit:
-        printBox("Congratulations! You hit my battleship!")
+        hitShip = ([shipCoords for ship in 
+                    [ship for ship in ships for shipCoord in ship
+                    if shipCoord == guessCoords] 
+                    for shipCoords in ship])
+        shipType = shipNames["%s" % len(hitShip)]
+        printBox("You hit my %s!" %shipType)
         board[(guess_row)][(guess_col)] = "\033[1m@\033[0m"
-        turn += 3       
+        turn += 1
         isShipSunk = []
-        hitShip = [ship for ship in ships for shipCoord in ship if shipCoord == guessCoords]
-        for shipCoord in hitShip[0]:
+        for shipCoord in hitShip:
             if board[(shipCoord[0]-1)][(shipCoord[1]-1)] == "\033[1m@\033[0m":
-                isShipSunk.append(shipCoord[0])
-        if len(isShipSunk) == len(hitShip[0]):
+                isShipSunk.append(shipCoord)
+        if len(isShipSunk) == len(hitShip):
             isSunk = True
         else:
             isSunk = False
         if isSunk:
+            turn +=2
             shipsSunk.append(ship)
-            printBox("Congratulations! You sunk my battleship!")
+            printBox("Good Job! You sunk my %s!" %shipType)
             markShip = [ship for ship in ships for shipCoord in ship if shipCoord == guessCoords]
             for shipCoord in markShip[0]:
-                board[shipCoord[0]-1][shipCoord[1]-1] = "\033[1m/\033[0m" #marks bold s for ship on map
+                board[shipCoord[0]-1][shipCoord[1]-1] = "\033[1m+\033[0m" #marks bold s for ship on map
             if len(shipsSunk) == len(ships):
                 printBox("Congratulations! You sunk my whole fleet!")
                 print_board(board)
@@ -214,7 +206,7 @@ def checkGuess(guessCoords, turn):
             printBox("You missed everytime!")
             printBox("You are out of turns!")
             board[(guess_row)][(guess_col)] = "\033[1mX\033[0m" #marks bold x on map
-            printBox("Here is the answer.")
+            printBox("Here is the answer:")
             markShip = [shipCoord for ship in ships for shipCoord in ship]
             for ship in markShip:
                 board[ship[0]-1][ship[1]-1] = "\033[1mS\033[0m" #marks bold s for ship on map

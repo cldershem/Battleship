@@ -1,31 +1,35 @@
 Known bugs:
-    singleShip mode doesn't work anymore
-        
+    can hang sometimes on smaller board
+    
 Feature requests:
     multiplayer
-    bigger ships - most likely after multiplayer
-        hit battleship get 1 turn
-        sink battleship get 3 turns
-        you hit my "cruiser"s
-    difficulty - number of ships, length, etc
-    clean up screen
-        color
+    SinglePlayerMode
+        difficulty - number of ships, length, etc
     documentation
 
 Changelog
+    removed singleShip remnants (it will be missed)
+    added "You hit my Cruiser"/"Sank my aircraft carrier" style
+    added Aircraft Carrier
+    adjusted configs
+    changed turns when hit
+        hit ship get 1 turn
+        sink ship get 3 turns
     added multi length ship options
     add configuration options
     added debugging logs
     bug fixes
     Sinking a ship gives you extra turns
     changed level to how many ships
-    added box around board
-    added box around responses
+    cleaned up output
+        added box around board
+        added box around responses
+        made board have ~ for waves instead of O for ocean
+        added clear screen
     added play again function
-    made board have ~ for waves instead of O for ocean
-    added clear screen
     
 fixed
+    board border isn't long enough for bigger boards    
     sinking does not print new map
     sinking a ship does not give you extra turns
     printing the S for ship is causing an error - commented
