@@ -35,13 +35,13 @@ levels = {
 
 cheat = True
 debug = False
-level = "Easy"
+level = "Test"
 boardSize = levels[level]["boardSize"]
 maxShips = levels[level]["maxShips"]
 turns = levels[level]["turns"]
 minShipSize = levels[level]["minShipSize"]
 maxShipSize = levels[level]["maxShipSize"]
-shipNum = 5#levels[level]["maxShips"]
+shipNum = levels[level]["maxShips"]
 
 def main():
     os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] ) #clears terminal window
