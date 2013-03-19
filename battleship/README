@@ -1,15 +1,22 @@
 Known bugs:
     can hang sometimes on smaller board
     user name not santized
+    multiplayer is using levels
     
 Feature requests:
     multiplayer
         make Turn clearer
+        print Player1 left, Player2 right
+            80 - len(headerRow)
+        allow players to set their own ships
+            each board belongs to the opposite.
     SinglePlayerMode
         difficulty - number of ships, length, etc
+    change Player class name to be more descriptive
     documentation
 
 Changelog
+    MultiPlayer - prints both boards at end of game
     MultiPlayer Working
     SinglePlayerMode working
     added classes for multiplayer
@@ -34,6 +41,7 @@ Changelog
     added play again function
     
 fixed
+    when answer board is printed S covers hits and sunk
     number of ships left never changes
     board border isn't long enough for bigger boards    
     sinking does not print new map
@@ -48,3 +56,8 @@ fixed
     randomly ships[] will have extra numbers at end
     can hit ship which is already sunk
     if guess is already hit "you missed"
+
+misc notes:
+    list slice
+    list comprehension
+    save to DB by P1-P2-time

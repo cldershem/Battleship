@@ -21,13 +21,14 @@ levels = {
                         "minShipSize": 2,
                         "maxShipSize": 5},
             }
-level = "Medium"
+level = "Hard"
 boardSize = levels[level]["boardSize"]
 maxShips = levels[level]["maxShips"]
 turns = levels[level]["turns"]
 minShipSize = levels[level]["minShipSize"]
 maxShipSize = levels[level]["maxShipSize"]
 shipNum = levels[level]["maxShips"]
+consoleWidth = 80
 
 def main():
     os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] ) #clears terminal window
@@ -35,12 +36,18 @@ def main():
     if debug == True:
         logging.basicConfig(level=logging.DEBUG, format=
                             '%(asctime)s - %(levelname)s - %(message)s')
-    single = raw_input("Would you like to play single player? (y/n)")
-    single = single.lower()
-    if single == "y":
-        singlePlayer()
-    else:
-        multiPlayer()
+    while True:
+        try:
+            single = raw_input("Would you like to play single player? (y/n)>")
+            single = single.lower()
+            if single[0] == "y":
+                singlePlayer()
+                break
+            elif single[0] == "n":
+                multiPlayer()
+                break
+            else:
+                printBox("That is not a valid answer!")
 
 def singlePlayer():
     turns = 4
@@ -71,7 +78,11 @@ def singlePlayer():
         printBox("Here is the answer:")
         markShip = [shipCoord for ship in player.ships for shipCoord in ship]
         for ship in markShip:
-            player.board[ship[0]-1][ship[1]-1] = "\033[1mS\033[0m" #marks bold s for ship on map
+            if ((player.board[ship[0]-1][ship[1]-1] != 
+                    "\033[1m@\033[0m") and
+                (player.board[ship[0]-1][ship[1]-1] != 
+                    "\033[1m+\033[0m")):
+                player.board[ship[0]-1][ship[1]-1] = "\033[1mS\033[0m" #marks bold s for ship on map
         print_board(player.board)
         printBox("Game Over")
     playAgain()
@@ -88,12 +99,13 @@ def multiPlayer():
             break
         elif multiPlayerTurn(player2) == "won":
             winner = player2
-            loswer = player2
+            loser = player1
             break
         else:
             pass
-    print_board(winner.board)
+    printWinner(winner, loser)
     playAgain()
+    pass
     
 def multiPlayerTurn(player):
     printBox(player.name)
@@ -243,12 +255,13 @@ class Player(object):
         self.createShipFleet(self.shipNum)
 
 def printBox(printOut):
+    leftMargin = (consoleWidth/2)
     """
     This prints things out with a box around them.
     """
-    print "#" * 80
-    print "%s".center(40, " ") % printOut
-    print "#" * 80
+    print "#" * consoleWidth
+    print "%s".center(leftMargin, " ") % printOut
+    print "#" * consoleWidth
 
 def print_board(board):
     headerRow = []
@@ -257,16 +270,45 @@ def print_board(board):
         headerRow.append("%s" % count)
         count += 1
     if len(headerRow) == 5:
-        boarderLength = 15
+        borderLength = 15
     elif len(headerRow) == 9:
-        boarderLength = 23
-    print "*" * boarderLength
+        borderLength = 23
+    print "*" * borderLength
     print "*   " + " ".join(headerRow) + " *"
     count = 1
     for row in board:
         print "* " + str(count) + " " + " ".join(row) + " *"
         count += 1
-    print "*" * boarderLength
+    print "*" * borderLength
+    
+def printWinner(winner, loser):
+    borderLength = 23
+    widthApart = (consoleWidth - (borderLength*2))
+    
+    #mark up loser board
+    markShip = [shipCoord for ship in loser.ships for shipCoord in ship]
+    for ship in markShip:
+        if ((loser.board[ship[0]-1][ship[1]-1] != 
+                "\033[1m@\033[0m") and
+            (loser.board[ship[0]-1][ship[1]-1] != 
+                "\033[1m+\033[0m")):
+            loser.board[ship[0]-1][ship[1]-1] = "\033[1mS\033[0m"
+    #prints boards
+    nameRow = winner.name + " " * (consoleWidth - len(winner.name) - len(loser.name))+ loser.name
+    print "#" * consoleWidth
+    print "%s" % nameRow
+    print "#" * consoleWidth
+    winnerHeader = []
+    for col in range(0,len(winner.board[0])):
+        winnerHeader.append("%s" % str(col+1))
+    loserHeader = []
+    for col in range(0,len(loser.board[0])):
+        loserHeader.append("%s" % str(col+1))
+    print "*" * borderLength + " " * widthApart + "*" * borderLength
+    print "*   " + " ".join(winnerHeader) + " *" + " " * widthApart + "*   " + " ".join(loserHeader) + " *"
+    for row in range(0,len(winner.board)):
+        print "* " + str(row+1) + " " + " ".join(winner.board[row]) + " *" + " " * widthApart + "* " + str(row+1) + " " + " ".join(loser.board[row]) + " *"
+    print "*" * borderLength + " " * widthApart + "*" * borderLength
 
 def playAgain():
     newGame = raw_input("Would you like to play again? (y/n)>")
