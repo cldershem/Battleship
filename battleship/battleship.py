@@ -4,7 +4,7 @@ import logging
 
 cheat = True
 debug = False
-single = True
+single = False
 
 boardSize = 5
 maxShips = 5
@@ -18,7 +18,9 @@ def main():
     if debug == True:
         logging.basicConfig(level=logging.DEBUG, format=
                             '%(asctime)s - %(levelname)s - %(message)s')
-    if single == True:
+    single = raw_input("Would you like to play single player? (y/n)")
+    single = single.lower()
+    if single == "y":
         singlePlayer()
     else:
         multiPlayer()
@@ -44,6 +46,7 @@ def singlePlayer():
         elif checkedGuess == "sunk":
             turns += 3
         elif checkedGuess == "won":
+            print_board(self.board)
             playAgain()
     else:
         printBox("You missed everytime!")
@@ -57,18 +60,40 @@ def singlePlayer():
     playAgain()
 
 def multiPlayer():
-    player1 = Player('Nigel')
-    player2 = Player('Sally')
+    player1 = Player(raw_input("What is Player One's name?")) #change to raw_input
+    player2 = Player(raw_input("What is Player Two's name?")) #change to raw_input
     player1.startGame()
     player2.startGame()
-    #~ while True:
-        #~ if player1.getGuess == "won":
-            #~ return False
-        #~ elif player2.getGuess == "won":
-            #~ return False
-    #~ playAgain()
-    print "end"
+    while True:
+        if multiPlayerTurn(player1) == "won":
+            winner = player1
+            loser = player2
+            break
+        elif multiPlayerTurn(player2) == "won":
+            winner = player2
+            loswer = player2
+            break
+        else:
+            pass
+    print_board(winner.board)
+    playAgain()
     
+def multiPlayerTurn(player):
+    printBox(player.name)
+    print_board(player.board)
+    printBox(str((len(player.ships))-len(player.shipsSunk)) + " ships left")
+    if cheat == True:
+        count = 1
+        for ship in player.ships:
+            print("ship %i %s" % (count, ship))
+            count += 1
+    guessCoords = player.getGuess()
+    checkedGuess = player.checkGuess(guessCoords)
+    if checkedGuess == "won":
+        return "won"
+    else:
+        pass
+
 class Player(object):
     boardSize = 5
     
@@ -188,7 +213,6 @@ class Player(object):
                     self.board[shipCoord[0]-1][shipCoord[1]-1] = "\033[1m+\033[0m" #marks bold s for ship on map
                 if len(self.shipsSunk) == len(self.ships):
                     printBox("Congratulations! You sunk my whole fleet!")
-                    print_board(self.board)
                     return "won"
                 return "sunk"
             else:

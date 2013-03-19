@@ -3,11 +3,13 @@ Known bugs:
     
 Feature requests:
     multiplayer
+        make Turn clearer
     SinglePlayerMode
         difficulty - number of ships, length, etc
     documentation
 
 Changelog
+    MultiPlayer Working
     SinglePlayerMode working
     added classes for multiplayer
     removed singleShip remnants (it will be missed)
