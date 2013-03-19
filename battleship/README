@@ -1,5 +1,6 @@
 Known bugs:
     can hang sometimes on smaller board
+    user name not santized
     
 Feature requests:
     multiplayer

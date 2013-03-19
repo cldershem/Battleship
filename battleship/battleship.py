@@ -2,15 +2,32 @@ import random
 import os
 import logging
 
-cheat = True
+cheat = False
 debug = False
-single = False
-
-boardSize = 5
-maxShips = 5
-minShipSize = 2
-maxShipSize = 4
-shipNum = 2
+levels = {  
+            "Easy": {   "boardSize": 5,
+                        "maxShips": 5,
+                        "turns": 4,
+                        "minShipSize": 2,
+                        "maxShipSize": 5},
+            "Medium": { "boardSize": 9,
+                        "maxShips": 7,
+                        "turns": 4,
+                        "minShipSize": 2,
+                        "maxShipSize": 5},
+            "Hard": {   "boardSize": 9,
+                        "maxShips": 5,
+                        "turns": 4,
+                        "minShipSize": 2,
+                        "maxShipSize": 5},
+            }
+level = "Medium"
+boardSize = levels[level]["boardSize"]
+maxShips = levels[level]["maxShips"]
+turns = levels[level]["turns"]
+minShipSize = levels[level]["minShipSize"]
+maxShipSize = levels[level]["maxShipSize"]
+shipNum = levels[level]["maxShips"]
 
 def main():
     os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] ) #clears terminal window
@@ -46,7 +63,7 @@ def singlePlayer():
         elif checkedGuess == "sunk":
             turns += 3
         elif checkedGuess == "won":
-            print_board(self.board)
+            print_board(player.board)
             playAgain()
     else:
         printBox("You missed everytime!")
@@ -60,8 +77,8 @@ def singlePlayer():
     playAgain()
 
 def multiPlayer():
-    player1 = Player(raw_input("What is Player One's name?")) #change to raw_input
-    player2 = Player(raw_input("What is Player Two's name?")) #change to raw_input
+    player1 = Player(raw_input("What is Player One's name? >")) #change to raw_input
+    player2 = Player(raw_input("What is Player Two's name? >")) #change to raw_input
     player1.startGame()
     player2.startGame()
     while True:
@@ -95,7 +112,6 @@ def multiPlayerTurn(player):
         pass
 
 class Player(object):
-    boardSize = 5
     
     def __init__(self, name):
         self.name = name
@@ -222,9 +238,9 @@ class Player(object):
             self.board[(guess_row)][(guess_col)] = "\033[1mX\033[0m"            
     
     def startGame(self):
-        for i in range(0,boardSize):
-            self.board.append(["~"] * boardSize)
-        self.createShipFleet(shipNum)
+        for i in range(0,self.boardSize):
+            self.board.append(["~"] * self.boardSize)
+        self.createShipFleet(self.shipNum)
 
 def printBox(printOut):
     """
@@ -235,17 +251,16 @@ def printBox(printOut):
     print "#" * 80
 
 def print_board(board):
-    #~ if self.boardSize == 5:
-        #~ boarderLength = 15
-    #~ elif self.boardSize == 9:
-        #~ boarderLength = 23
-    boarderLength = 15
-    print "*" * boarderLength
     headerRow = []
     count = 1
     for col in board:
         headerRow.append("%s" % count)
         count += 1
+    if len(headerRow) == 5:
+        boarderLength = 15
+    elif len(headerRow) == 9:
+        boarderLength = 23
+    print "*" * boarderLength
     print "*   " + " ".join(headerRow) + " *"
     count = 1
     for row in board:
