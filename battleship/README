@@ -8,6 +8,8 @@ Feature requests:
     documentation
 
 Changelog
+    SinglePlayerMode working
+    added classes for multiplayer
     removed singleShip remnants (it will be missed)
     added "You hit my Cruiser"/"Sank my aircraft carrier" style
     added Aircraft Carrier
@@ -29,6 +31,7 @@ Changelog
     added play again function
     
 fixed
+    number of ships left never changes
     board border isn't long enough for bigger boards    
     sinking does not print new map
     sinking a ship does not give you extra turns
