@@ -16,6 +16,8 @@ Feature requests:
     documentation
 
 Changelog
+    added validation for "singlePlayer?"
+    cleaned up KeyboardInterrupt
     MultiPlayer - prints both boards at end of game
     MultiPlayer Working
     SinglePlayerMode working

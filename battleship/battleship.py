@@ -48,6 +48,10 @@ def main():
                 break
             else:
                 printBox("That is not a valid answer!")
+        except KeyboardInterrupt:
+            print ""
+            printBox("You're leaving!")
+            exit()
 
 def singlePlayer():
     turns = 4
