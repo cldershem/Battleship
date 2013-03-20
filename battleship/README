@@ -1,9 +1,8 @@
 Known bugs:
-    can hang sometimes on smaller board
-    user name not santized
     
 Feature requests:
     multiplayer
+        sanitize user names?
         make Turn clearer
         print Player1 left, Player2 right
             80 - len(headerRow)
@@ -41,6 +40,7 @@ Changelog
     added play again function
     
 fixed
+    can hang sometimes in Easy mode
     multiplayer is using levels
     when answer board is printed S covers hits and sunk
     number of ships left never changes
