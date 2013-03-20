@@ -4,30 +4,6 @@ import logging
 
 cheat = False
 debug = False
-levels = {  
-            "Easy": {   "boardSize": 5,
-                        "maxShips": 5,
-                        "turns": 4,
-                        "minShipSize": 2,
-                        "maxShipSize": 5},
-            "Medium": { "boardSize": 9,
-                        "maxShips": 7,
-                        "turns": 4,
-                        "minShipSize": 2,
-                        "maxShipSize": 5},
-            "Hard": {   "boardSize": 9,
-                        "maxShips": 5,
-                        "turns": 4,
-                        "minShipSize": 2,
-                        "maxShipSize": 5},
-            }
-level = "Hard"
-boardSize = levels[level]["boardSize"]
-maxShips = levels[level]["maxShips"]
-turns = levels[level]["turns"]
-minShipSize = levels[level]["minShipSize"]
-maxShipSize = levels[level]["maxShipSize"]
-shipNum = levels[level]["maxShips"]
 consoleWidth = 80
 
 def main():
@@ -54,9 +30,25 @@ def main():
             exit()
 
 def singlePlayer():
-    turns = 4
-    player = Player("Player")
+    while True:
+        try:
+            level = raw_input("1. Easy, 2. Medium, or 3. Hard? >")
+            if level == "1" or level[0].lower() == "e":
+                level = "Easy"
+                break
+            elif level == "2" or level[0].lower() == "m":
+                level = "Medium"
+                break
+            elif level == "3" or level[0].lower() == "h":
+                level = "Hard"
+                break
+            else:
+                printBox("That is not a valid level!")
+        except ValueError:
+            printBox("That is not a valid level!")
+    player = Player("Player", level)
     player.startGame()
+    turns = player.turns
     while turns > 0:
         print_board(player.board)
         printBox(str(turns) + " turns left")
@@ -92,8 +84,9 @@ def singlePlayer():
     playAgain()
 
 def multiPlayer():
-    player1 = Player(raw_input("What is Player One's name? >")) #change to raw_input
-    player2 = Player(raw_input("What is Player Two's name? >")) #change to raw_input
+    level = "Multi"
+    player1 = Player(raw_input("What is Player One's name? >"), "Multi") #change to raw_input
+    player2 = Player(raw_input("What is Player Two's name? >"), "Multi") #change to raw_input
     player1.startGame()
     player2.startGame()
     while True:
@@ -112,6 +105,7 @@ def multiPlayer():
     pass
     
 def multiPlayerTurn(player):
+    level = "Medium"
     printBox(player.name)
     print_board(player.board)
     printBox(str((len(player.ships))-len(player.shipsSunk)) + " ships left")
@@ -128,17 +122,46 @@ def multiPlayerTurn(player):
         pass
 
 class Player(object):
-    
-    def __init__(self, name):
+    levels = {  
+            "Easy": {   "boardSize": 5,
+                        "maxShips": 4,
+                        "turns": 4,
+                        "minShipSize": 2,
+                        "maxShipSize": 5},
+            "Medium": { "boardSize": 9,
+                        "maxShips": 7,
+                        "turns": 5,
+                        "minShipSize": 2,
+                        "maxShipSize": 5},
+            "Hard": {   "boardSize": 9,
+                        "maxShips": 5,
+                        "turns": 4,
+                        "minShipSize": 2,
+                        "maxShipSize": 5},
+            "Multi": {   "boardSize": 9,
+                        "maxShips": 5,
+                        "turns": 4,
+                        "minShipSize": 2,
+                        "maxShipSize": 5}
+            }
+            
+    def __init__(self, name, level):
         self.name = name
         self.board = []
         self.ships = []
         self.shipsSunk = []
-        self.boardSize = boardSize
-        self.maxShips = maxShips
-        self.minShipSize = minShipSize
-        self.maxShipSize = maxShipSize
-        self.shipNum = shipNum
+        #~ self.boardSize = boardSize
+        #~ self.maxShips = maxShips
+        #~ self.minShipSize = minShipSize
+        #~ self.maxShipSize = maxShipSize
+        #~ self.shipNum = shipNum
+        self.level = level
+        self.boardSize = self.levels[self.level]["boardSize"]
+        self.maxShips = self.levels[self.level]["maxShips"]
+        self.turns = self.levels[self.level]["turns"]
+        self.minShipSize = self.levels[self.level]["minShipSize"]
+        self.maxShipSize = self.levels[self.level]["maxShipSize"]
+        self.shipNum = self.levels[self.level]["maxShips"]
 
     def createMultiShips(self, shipSize):
         currentShip = []

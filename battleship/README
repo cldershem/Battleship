@@ -1,7 +1,6 @@
 Known bugs:
     can hang sometimes on smaller board
     user name not santized
-    multiplayer is using levels
     
 Feature requests:
     multiplayer
@@ -10,12 +9,11 @@ Feature requests:
             80 - len(headerRow)
         allow players to set their own ships
             each board belongs to the opposite.
-    SinglePlayerMode
-        difficulty - number of ships, length, etc
     change Player class name to be more descriptive
     documentation
 
 Changelog
+    added SinglePlayerMode difficulty choice
     added validation for "singlePlayer?"
     cleaned up KeyboardInterrupt
     MultiPlayer - prints both boards at end of game
@@ -43,6 +41,7 @@ Changelog
     added play again function
     
 fixed
+    multiplayer is using levels
     when answer board is printed S covers hits and sunk
     number of ships left never changes
     board border isn't long enough for bigger boards    
