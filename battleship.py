@@ -127,7 +127,7 @@ class Player(object):
                         "maxShips": 4,
                         "turns": 4,
                         "minShipSize": 2,
-                        "maxShipSize": 5},
+                        "maxShipSize": 4},
             "Medium": { "boardSize": 9,
                         "maxShips": 7,
                         "turns": 5,
@@ -240,7 +240,7 @@ class Player(object):
                         "3": "Submarine",
                         "4": "Battleship",
                         "5": "Aircraft Carrier",
-                }
+                    }
         guess_row = (guessCoords[0]-1)
         guess_col = (guessCoords[1]-1)
         isHit = [shipCoord for ship in self.ships for shipCoord in ship if shipCoord == guessCoords]
