@@ -7,7 +7,8 @@ debug = False
 consoleWidth = 80
 
 def main():
-    os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] ) #clears terminal window
+    
+    os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] ) #clears terminal
     printBox("Let's play battleship!")
     if debug == True:
         logging.basicConfig(level=logging.DEBUG, format=

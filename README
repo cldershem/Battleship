@@ -1,6 +1,10 @@
 Known bugs:
+    line 64 typo = boarderLength should be borderLength
+    create methods for classes
+        ship.setLocation()
+        ship.getLocation()
+        ship.isAlive()?
 
-    
 Feature requests:
     multiplayer
         sanitize user names?
