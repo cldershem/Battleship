@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import random
 import os
 import logging
@@ -52,7 +53,7 @@ def singlePlayer():
     player.startGame()
     turns = player.turns
     while turns > 0:
-        print_board(player.board)
+        printBoard(player.board)
         printBox(str(turns) + " turns left")
         printBox(str((len(player.ships))-len(player.shipsSunk))+" ships left")
         if cheat is True:
@@ -68,7 +69,7 @@ def singlePlayer():
         elif checkedGuess == "sunk":
             turns += 3
         elif checkedGuess == "won":
-            print_board(player.board)
+            printBoard(player.board)
             playAgain()
     else:
         printBox("You missed everytime!")
@@ -80,7 +81,7 @@ def singlePlayer():
                     (player.board[ship[0]-1][ship[1]-1] != bold("+"))):
                         # marks bold s for ship on map
                         player.board[ship[0]-1][ship[1]-1] = bold("S")
-        print_board(player.board)
+        printBoard(player.board)
         printBox("Game Over")
     playAgain()
 
@@ -100,16 +101,13 @@ def multiPlayer():
             winner = player2
             loser = player1
             break
-        else:
-            pass
     printWinner(winner, loser)
     playAgain()
-    pass
 
 
 def multiPlayerTurn(player):
     printBox(player.name)
-    print_board(player.board)
+    printBoard(player.board)
     printBox(str((len(player.ships))-len(player.shipsSunk)) + " ships left")
     if cheat is True:
         count = 1
@@ -120,8 +118,6 @@ def multiPlayerTurn(player):
     checkedGuess = player.checkGuess(guessCoords)
     if checkedGuess == "won":
         return "won"
-    else:
-        pass
 
 
 class Player(object):
@@ -153,11 +149,6 @@ class Player(object):
         self.board = []
         self.ships = []
         self.shipsSunk = []
-        #~ self.boardSize = boardSize
-        #~ self.maxShips = maxShips
-        #~ self.minShipSize = minShipSize
-        #~ self.maxShipSize = maxShipSize
-        #~ self.shipNum = shipNum
         self.level = level
         self.boardSize = self.levels[self.level]["boardSize"]
         self.maxShips = self.levels[self.level]["maxShips"]
@@ -290,20 +281,19 @@ class Player(object):
 
 
 def printBox(printOut):
+    """Prints things out with a box around them."""
     leftMargin = (consoleWidth/2)
-    """
-    This prints things out with a box around them.
-    """
     print "#" * consoleWidth
     print "%s".center(leftMargin, " ") % printOut
     print "#" * consoleWidth
 
 
 def bold(s):
+    """Makes character bold for display in board"""
     return "\033[1m" + s + "\033[0m"
 
 
-def print_board(board):
+def printBoard(board):
     headerRow = []
     count = 1
     for col in board:

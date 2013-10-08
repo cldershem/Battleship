@@ -1,21 +1,22 @@
 Known bugs:
-    line 64 typo = boarderLength should be borderLength
     create methods for classes
         ship.setLocation()
         ship.getLocation()
-        ship.isAlive()?
+        hip.isAlive()?
 
 Feature requests:
     multiplayer
         sanitize user names?
+            is this even needed?
         make Turn clearer
-        print Player1 left, Player2 right
-            80 - len(headerRow)
+            print Player1 left, Player2 right
+                80 - len(headerRow)
         allow players to set their own ships
             each board belongs to the opposite?
     documentation
 
 Changelog
+    cleaned up a few things
     pep8'd this mutha
     added bold()wrapper to clean up "\033[1X\033[0" or what have you
     Reorganized Repo
