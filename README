@@ -16,6 +16,8 @@ Feature requests:
     documentation
 
 Changelog
+    pep8'd this mutha
+    added bold()wrapper to clean up "\033[1X\033[0" or what have you
     Reorganized Repo
     added SinglePlayerMode difficulty choice
     added validation for "singlePlayer?"

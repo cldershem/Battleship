@@ -6,11 +6,11 @@ cheat = False
 debug = False
 consoleWidth = 80
 
+
 def main():
-    
-    os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] ) #clears terminal
+    os.system(['clear', 'cls'][os.name == 'nt'])  # clears terminal
     printBox("Let's play battleship!")
-    if debug == True:
+    if debug is True:
         logging.basicConfig(level=logging.DEBUG, format=
                             '%(asctime)s - %(levelname)s - %(message)s')
     while True:
@@ -29,6 +29,7 @@ def main():
             print ""
             printBox("You're leaving!")
             exit()
+
 
 def singlePlayer():
     while True:
@@ -53,8 +54,8 @@ def singlePlayer():
     while turns > 0:
         print_board(player.board)
         printBox(str(turns) + " turns left")
-        printBox(str((len(player.ships))-len(player.shipsSunk)) + " ships left")
-        if cheat == True:
+        printBox(str((len(player.ships))-len(player.shipsSunk))+" ships left")
+        if cheat is True:
             count = 1
             for ship in player.ships:
                 print("ship %i %s" % (count, ship))
@@ -75,19 +76,19 @@ def singlePlayer():
         printBox("Here is the answer:")
         markShip = [shipCoord for ship in player.ships for shipCoord in ship]
         for ship in markShip:
-            if ((player.board[ship[0]-1][ship[1]-1] != 
-                    "\033[1m@\033[0m") and
-                (player.board[ship[0]-1][ship[1]-1] != 
-                    "\033[1m+\033[0m")):
-                player.board[ship[0]-1][ship[1]-1] = "\033[1mS\033[0m" #marks bold s for ship on map
+            if ((player.board[ship[0]-1][ship[1]-1] != bold("@")) and
+                    (player.board[ship[0]-1][ship[1]-1] != bold("+"))):
+                        # marks bold s for ship on map
+                        player.board[ship[0]-1][ship[1]-1] = bold("S")
         print_board(player.board)
         printBox("Game Over")
     playAgain()
 
+
 def multiPlayer():
     level = "Multi"
-    player1 = Player(raw_input("What is Player One's name? >"), "Multi") #change to raw_input
-    player2 = Player(raw_input("What is Player Two's name? >"), "Multi") #change to raw_input
+    player1 = Player(raw_input("What is Player One's name? >"), level)
+    player2 = Player(raw_input("What is Player Two's name? >"), level)
     player1.startGame()
     player2.startGame()
     while True:
@@ -104,13 +105,13 @@ def multiPlayer():
     printWinner(winner, loser)
     playAgain()
     pass
-    
+
+
 def multiPlayerTurn(player):
-    level = "Medium"
     printBox(player.name)
     print_board(player.board)
     printBox(str((len(player.ships))-len(player.shipsSunk)) + " ships left")
-    if cheat == True:
+    if cheat is True:
         count = 1
         for ship in player.ships:
             print("ship %i %s" % (count, ship))
@@ -122,30 +123,31 @@ def multiPlayerTurn(player):
     else:
         pass
 
+
 class Player(object):
-    levels = {  
-            "Easy": {   "boardSize": 5,
-                        "maxShips": 4,
-                        "turns": 4,
-                        "minShipSize": 2,
-                        "maxShipSize": 4},
-            "Medium": { "boardSize": 9,
-                        "maxShips": 7,
-                        "turns": 5,
-                        "minShipSize": 2,
-                        "maxShipSize": 5},
-            "Hard": {   "boardSize": 9,
-                        "maxShips": 5,
-                        "turns": 4,
-                        "minShipSize": 2,
-                        "maxShipSize": 5},
-            "Multi": {   "boardSize": 9,
-                        "maxShips": 5,
-                        "turns": 4,
-                        "minShipSize": 2,
-                        "maxShipSize": 5}
-            }
-            
+    levels = {
+        "Easy": {"boardSize": 5,
+                 "maxShips": 4,
+                 "turns": 4,
+                 "minShipSize": 2,
+                 "maxShipSize": 4},
+        "Medium": {"boardSize": 9,
+                   "maxShips": 7,
+                   "turns": 5,
+                   "minShipSize": 2,
+                   "maxShipSize": 5},
+        "Hard": {"boardSize": 9,
+                 "maxShips": 5,
+                 "turns": 4,
+                 "minShipSize": 2,
+                 "maxShipSize": 5},
+        "Multi": {"boardSize": 9,
+                  "maxShips": 5,
+                  "turns": 4,
+                  "minShipSize": 2,
+                  "maxShipSize": 5}
+        }
+
     def __init__(self, name, level):
         self.name = name
         self.board = []
@@ -167,27 +169,27 @@ class Player(object):
     def createMultiShips(self, shipSize):
         currentShip = []
         shipOrientation = random.choice(["N", "E", "S", "W"])
-        ship_row = random.randint(1,self.boardSize)
-        ship_col = random.randint(1,self.boardSize)
+        ship_row = random.randint(1, self.boardSize)
+        ship_col = random.randint(1, self.boardSize)
         shipBow = (ship_row, ship_col)
         currentShip.append(shipBow)
         while len(currentShip) < shipSize:
             if shipOrientation == "N":
-                currentShip.append((currentShip[-1][0],currentShip[-1][1]-1))
+                currentShip.append((currentShip[-1][0], currentShip[-1][1]-1))
             elif shipOrientation == "E":
-                currentShip.append((currentShip[-1][0]+1,currentShip[-1][1]))
+                currentShip.append((currentShip[-1][0]+1, currentShip[-1][1]))
             elif shipOrientation == "S":
-                currentShip.append((currentShip[-1][0],currentShip[-1][1]+1))
+                currentShip.append((currentShip[-1][0], currentShip[-1][1]+1))
             elif shipOrientation == "W":
-                currentShip.append((currentShip[-1][0]-1,currentShip[-1][1]))
+                currentShip.append((currentShip[-1][0]-1, currentShip[-1][1]))
             else:
                 logging.debug("Fuck")
-        else: #check for duplicates/out of ocean, then append to self.ships
+        else:  # check for duplicates/out of ocean, then append to self.ships
             for currentShipCoord in currentShip:
-                if ((currentShipCoord[0] > self.boardSize) or 
-                    (currentShipCoord[0] < 1) or 
-                    (currentShipCoord[1] > self.boardSize) or 
-                    (currentShipCoord[1] < 1)):
+                if ((currentShipCoord[0] > self.boardSize) or
+                        (currentShipCoord[0] < 1) or
+                        (currentShipCoord[1] > self.boardSize) or
+                        (currentShipCoord[1] < 1)):
                     shipSize = len(currentShip)
                     currentShip = []
                     return shipSize
@@ -226,7 +228,8 @@ class Player(object):
                 break
             except (TypeError, ValueError):
                 printBox("That is not a valid number!")
-        if (guess_row < 1 or guess_row > self.boardSize) or (guess_col < 1 or guess_col > self.boardSize):
+        if ((guess_row < 1 or guess_row > self.boardSize) or
+                (guess_col < 1 or guess_col > self.boardSize)):
             printBox("Oops, that's not even in the ocean.")
             return self.getGuess()
         elif (self.board[(guess_row-1)][(guess_col-1)] != "~"):
@@ -237,25 +240,26 @@ class Player(object):
             return guessCoords
 
     def checkGuess(self, guessCoords):
-        shipNames = {   "2": "Patrol Boat",
-                        "3": "Submarine",
-                        "4": "Battleship",
-                        "5": "Aircraft Carrier",
-                    }
+        shipNames = {"2": "Patrol Boat",
+                     "3": "Submarine",
+                     "4": "Battleship",
+                     "5": "Aircraft Carrier",
+                     }
         guess_row = (guessCoords[0]-1)
         guess_col = (guessCoords[1]-1)
-        isHit = [shipCoord for ship in self.ships for shipCoord in ship if shipCoord == guessCoords]
+        isHit = [shipCoord for ship in self.ships
+                 for shipCoord in ship if shipCoord == guessCoords]
         if isHit:
-            hitShip = ([shipCoords for ship in 
-                        [ship for ship in self.ships for shipCoord in ship
-                        if shipCoord == guessCoords] 
+            hitShip = ([shipCoords for ship in
+                       [ship for ship in self.ships for shipCoord in ship
+                        if shipCoord == guessCoords]
                         for shipCoords in ship])
             shipType = shipNames["%s" % len(hitShip)]
             printBox("You hit my %s!" % shipType)
-            self.board[(guess_row)][(guess_col)] = "\033[1m@\033[0m"
+            self.board[(guess_row)][(guess_col)] = bold("@")
             isShipSunk = []
             for shipCoord in hitShip:
-                if self.board[(shipCoord[0]-1)][(shipCoord[1]-1)] == "\033[1m@\033[0m":
+                if self.board[(shipCoord[0]-1)][(shipCoord[1]-1)] == bold("@"):
                     isShipSunk.append(shipCoord)
             if len(isShipSunk) == len(hitShip):
                 isSunk = True
@@ -263,10 +267,12 @@ class Player(object):
                 isSunk = False
             if isSunk:
                 self.shipsSunk.append(ship)
-                printBox("Good Job! You sunk my %s!" %shipType)
-                markShip = [ship for ship in self.ships for shipCoord in ship if shipCoord == guessCoords]
+                printBox("Good Job! You sunk my %s!" % shipType)
+                markShip = [ship for ship in self.ships
+                            for shipCoord in ship if shipCoord == guessCoords]
                 for shipCoord in markShip[0]:
-                    self.board[shipCoord[0]-1][shipCoord[1]-1] = "\033[1m+\033[0m" #marks bold s for ship on map
+                    # marks bold s for ship on map
+                    self.board[shipCoord[0]-1][shipCoord[1]-1] = bold("+")
                 if len(self.shipsSunk) == len(self.ships):
                     printBox("Congratulations! You sunk my whole fleet!")
                     return "won"
@@ -275,12 +281,13 @@ class Player(object):
                 return "hit"
         else:
             printBox("You missed!")
-            self.board[(guess_row)][(guess_col)] = "\033[1mX\033[0m"            
-    
+            self.board[(guess_row)][(guess_col)] = bold("X")
+
     def startGame(self):
-        for i in range(0,self.boardSize):
+        for i in range(0, self.boardSize):
             self.board.append(["~"] * self.boardSize)
         self.createShipFleet(self.shipNum)
+
 
 def printBox(printOut):
     leftMargin = (consoleWidth/2)
@@ -290,6 +297,11 @@ def printBox(printOut):
     print "#" * consoleWidth
     print "%s".center(leftMargin, " ") % printOut
     print "#" * consoleWidth
+
+
+def bold(s):
+    return "\033[1m" + s + "\033[0m"
+
 
 def print_board(board):
     headerRow = []
@@ -308,35 +320,39 @@ def print_board(board):
         print "* " + str(count) + " " + " ".join(row) + " *"
         count += 1
     print "*" * borderLength
-    
+
+
 def printWinner(winner, loser):
     borderLength = 23
     widthApart = (consoleWidth - (borderLength*2))
-    
+
     #mark up loser board
     markShip = [shipCoord for ship in loser.ships for shipCoord in ship]
     for ship in markShip:
-        if ((loser.board[ship[0]-1][ship[1]-1] != 
-                "\033[1m@\033[0m") and
-            (loser.board[ship[0]-1][ship[1]-1] != 
-                "\033[1m+\033[0m")):
-            loser.board[ship[0]-1][ship[1]-1] = "\033[1mS\033[0m"
+        if ((loser.board[ship[0]-1][ship[1]-1] != bold("@")) and
+                (loser.board[ship[0]-1][ship[1]-1] != bold("+"))):
+            loser.board[ship[0]-1][ship[1]-1] = bold("S")
     #prints boards
-    nameRow = winner.name + " " * (consoleWidth - len(winner.name) - len(loser.name))+ loser.name
+    nameRow = (winner.name + " " * (consoleWidth - len(winner.name) -
+                                    len(loser.name)) + loser.name)
     print "#" * consoleWidth
     print "%s" % nameRow
     print "#" * consoleWidth
     winnerHeader = []
-    for col in range(0,len(winner.board[0])):
+    for col in range(0, len(winner.board[0])):
         winnerHeader.append("%s" % str(col+1))
     loserHeader = []
-    for col in range(0,len(loser.board[0])):
+    for col in range(0, len(loser.board[0])):
         loserHeader.append("%s" % str(col+1))
-    print "*" * borderLength + " " * widthApart + "*" * borderLength
-    print "*   " + " ".join(winnerHeader) + " *" + " " * widthApart + "*   " + " ".join(loserHeader) + " *"
-    for row in range(0,len(winner.board)):
-        print "* " + str(row+1) + " " + " ".join(winner.board[row]) + " *" + " " * widthApart + "* " + str(row+1) + " " + " ".join(loser.board[row]) + " *"
-    print "*" * borderLength + " " * widthApart + "*" * borderLength
+    print("*" * borderLength + " " * widthApart + "*" * borderLength)
+    print("*   " + " ".join(winnerHeader) + " *" + " " * widthApart + "*   " +
+          " ".join(loserHeader) + " *")
+    for row in range(0, len(winner.board)):
+        print("* " + str(row+1) + " " + " ".join(winner.board[row]) + " *" +
+              " " * widthApart + "* " + str(row+1) + " " +
+              " ".join(loser.board[row]) + " *")
+    print("*" * borderLength + " " * widthApart + "*" * borderLength)
+
 
 def playAgain():
     newGame = raw_input("Would you like to play again? (y/n)>")
@@ -347,4 +363,3 @@ def playAgain():
         exit()
 
 main()
-
