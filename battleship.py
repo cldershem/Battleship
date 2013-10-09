@@ -410,7 +410,9 @@ def printWinner(winner, loser):
 
 
 def playAgain():
-    """Asks if player would like to play again.  Restarts or exits."""
+    """
+    Asks if player would like to play again.  Restarts or exits.
+    """
     newGame = raw_input("Would you like to play again? (y/n)>")
     newGame = newGame.lower()
     if newGame[0] == "y":
