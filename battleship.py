@@ -137,6 +137,14 @@ def multiPlayerTurn(player):
 
 
 class Player(object):
+    """
+    Player class has the following methods:
+        createMultiShips()
+        createShipFleet()
+        getGuess()
+        checkGuess()
+        createBoards()
+    """
     levels = {
         "Easy": {"boardSize": 5,
                  "maxShips": 4,
@@ -165,6 +173,9 @@ class Player(object):
         }
 
     def __init__(self, name, level):
+        """
+        Takes name and level of player and initializes all variables.
+        """
         self.name = name
         self.board = []
         self.ships = []
@@ -178,6 +189,11 @@ class Player(object):
         self.shipNum = self.levels[self.level]["maxShips"]
 
     def createMultiShips(self, shipSize):
+        """
+        Takes shipSize from createShipFleet and creates a ship that size.
+
+        Returns 0 for isError if all goes well.
+        """
         currentShip = []
         shipOrientation = random.choice(["N", "E", "S", "W"])
         ship_row = random.randint(1, self.boardSize)
@@ -220,6 +236,9 @@ class Player(object):
                 return isError
 
     def createShipFleet(self, shipNum):
+        """
+        Takes shipNum and creates that many ships.
+        """
         shipSize = self.minShipSize
         while len(self.ships) < self.shipNum:
             if shipSize < self.maxShipSize:
@@ -232,6 +251,11 @@ class Player(object):
                 self.createMultiShips(shipSize)
 
     def getGuess(self):
+        """
+        Gets guess from user trying again if invalid input.
+
+        Returns guessCoords.
+        """
         while True:
             try:
                 guess_row = int(raw_input("Guess Row:"))
@@ -251,6 +275,13 @@ class Player(object):
             return guessCoords
 
     def checkGuess(self, guessCoords):
+        """
+        Takes guessCoords and checks if it is a hit.  If it is a hit, checks
+        to see if that sunk the ship.  If that sunk the ship, checks to see if
+        that was the last ship.
+
+        Returns "miss", "hit", "sunk", "won".
+        """
         shipNames = {"2": "Patrol Boat",
                      "3": "Submarine",
                      "4": "Battleship",
@@ -295,6 +326,9 @@ class Player(object):
             self.board[(guess_row)][(guess_col)] = bold("X")
 
     def createBoard(self):
+        """
+        Creates board for player using the self.boardSize instance variable.
+        """
         for i in range(0, self.boardSize):
             self.board.append(["~"] * self.boardSize)
         self.createShipFleet(self.shipNum)
