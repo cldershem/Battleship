@@ -17,6 +17,8 @@ Feature requests:
 
 Changelog
     cleaned up a few things
+        renamed some methods
+        added if __name__ == "__main__"
     pep8'd this mutha
     added bold()wrapper to clean up "\033[1X\033[0" or what have you
     Reorganized Repo

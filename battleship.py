@@ -3,16 +3,22 @@ import random
 import os
 import logging
 
-cheat = False
-debug = False
-consoleWidth = 80
+CHEAT = False
+DEBUG = False
+CONSOLE_WIDTH = 80
 
 
-def main():
+def startGame():
+    """
+    Starts game by asking user if they want to play SinglePlayer or
+    MultiPlayer modes then sends them appropriately.
+
+    Yes, Y, y, yes, YES, y*, No, N, n, no, NO, n* are all valid inputs.
+    """
     os.system(['clear', 'cls'][os.name == 'nt'])  # clears terminal
     printBox("Let's play battleship!")
-    if debug is True:
-        logging.basicConfig(level=logging.DEBUG, format=
+    if DEBUG:
+        logging.basicConfig(level=logging.debug, format=
                             '%(asctime)s - %(levelname)s - %(message)s')
     while True:
         try:
@@ -33,6 +39,9 @@ def main():
 
 
 def singlePlayer():
+    """
+    Logic for SinglePlayer game.
+    """
     while True:
         try:
             level = raw_input("1. Easy, 2. Medium, or 3. Hard? >")
@@ -50,13 +59,13 @@ def singlePlayer():
         except ValueError:
             printBox("That is not a valid level!")
     player = Player("Player", level)
-    player.startGame()
+    player.createBoard()
     turns = player.turns
     while turns > 0:
         printBoard(player.board)
         printBox(str(turns) + " turns left")
         printBox(str((len(player.ships))-len(player.shipsSunk))+" ships left")
-        if cheat is True:
+        if CHEAT:
             count = 1
             for ship in player.ships:
                 print("ship %i %s" % (count, ship))
@@ -87,11 +96,14 @@ def singlePlayer():
 
 
 def multiPlayer():
+    """
+    Creates multiPlayer game.  Loops players through turns until game is won.
+    """
     level = "Multi"
     player1 = Player(raw_input("What is Player One's name? >"), level)
     player2 = Player(raw_input("What is Player Two's name? >"), level)
-    player1.startGame()
-    player2.startGame()
+    player1.createBoard()
+    player2.createBoard()
     while True:
         if multiPlayerTurn(player1) == "won":
             winner = player1
@@ -106,10 +118,14 @@ def multiPlayer():
 
 
 def multiPlayerTurn(player):
+    """
+    Takes player and has logic for their turn.
+    Returns "won" if player has won game.
+    """
     printBox(player.name)
     printBoard(player.board)
     printBox(str((len(player.ships))-len(player.shipsSunk)) + " ships left")
-    if cheat is True:
+    if CHEAT:
         count = 1
         for ship in player.ships:
             print("ship %i %s" % (count, ship))
@@ -126,22 +142,26 @@ class Player(object):
                  "maxShips": 4,
                  "turns": 4,
                  "minShipSize": 2,
-                 "maxShipSize": 4},
+                 "maxShipSize": 4
+                 },
         "Medium": {"boardSize": 9,
                    "maxShips": 7,
                    "turns": 5,
                    "minShipSize": 2,
-                   "maxShipSize": 5},
+                   "maxShipSize": 5
+                   },
         "Hard": {"boardSize": 9,
                  "maxShips": 5,
                  "turns": 4,
                  "minShipSize": 2,
-                 "maxShipSize": 5},
+                 "maxShipSize": 5
+                 },
         "Multi": {"boardSize": 9,
                   "maxShips": 5,
                   "turns": 4,
                   "minShipSize": 2,
-                  "maxShipSize": 5}
+                  "maxShipSize": 5
+                  }
         }
 
     def __init__(self, name, level):
@@ -274,26 +294,34 @@ class Player(object):
             printBox("You missed!")
             self.board[(guess_row)][(guess_col)] = bold("X")
 
-    def startGame(self):
+    def createBoard(self):
         for i in range(0, self.boardSize):
             self.board.append(["~"] * self.boardSize)
         self.createShipFleet(self.shipNum)
 
 
 def printBox(printOut):
-    """Prints things out with a box around them."""
-    leftMargin = (consoleWidth/2)
-    print "#" * consoleWidth
+    """
+    Takes string and prints it to stdout with a box of "#" around it.
+    """
+    leftMargin = (CONSOLE_WIDTH/2)
+    print "#" * CONSOLE_WIDTH
     print "%s".center(leftMargin, " ") % printOut
-    print "#" * consoleWidth
+    print "#" * CONSOLE_WIDTH
 
 
 def bold(s):
-    """Makes character bold for display in board"""
+    """
+    Takes a string and returns it in it's bold form for display in a console.
+    """
     return "\033[1m" + s + "\033[0m"
 
 
 def printBoard(board):
+    """
+    Takes a board (string of charcters from Player.createBoard()) and prints
+    it to the console.
+    """
     headerRow = []
     count = 1
     for col in board:
@@ -313,8 +341,11 @@ def printBoard(board):
 
 
 def printWinner(winner, loser):
+    """
+    Takes winner and loser and prints their boards to the conole.
+    """
     borderLength = 23
-    widthApart = (consoleWidth - (borderLength*2))
+    widthApart = (CONSOLE_WIDTH - (borderLength*2))
 
     #mark up loser board
     markShip = [shipCoord for ship in loser.ships for shipCoord in ship]
@@ -323,11 +354,11 @@ def printWinner(winner, loser):
                 (loser.board[ship[0]-1][ship[1]-1] != bold("+"))):
             loser.board[ship[0]-1][ship[1]-1] = bold("S")
     #prints boards
-    nameRow = (winner.name + " " * (consoleWidth - len(winner.name) -
+    nameRow = (winner.name + " " * (CONSOLE_WIDTH - len(winner.name) -
                                     len(loser.name)) + loser.name)
-    print "#" * consoleWidth
+    print "#" * CONSOLE_WIDTH
     print "%s" % nameRow
-    print "#" * consoleWidth
+    print "#" * CONSOLE_WIDTH
     winnerHeader = []
     for col in range(0, len(winner.board[0])):
         winnerHeader.append("%s" % str(col+1))
@@ -345,11 +376,13 @@ def printWinner(winner, loser):
 
 
 def playAgain():
+    """Asks if player would like to play again.  Restarts or exits."""
     newGame = raw_input("Would you like to play again? (y/n)>")
     newGame = newGame.lower()
     if newGame[0] == "y":
-        main()
+        startGame()
     else:
         exit()
 
-main()
+if __name__ == "__main__":
+    startGame()
