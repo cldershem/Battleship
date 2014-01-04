@@ -1,10 +1,14 @@
 ###KNOWN BUGS
-- create methods for classes
-    - ship.setLocation()
-    - ship.getLocation()
-    - hip.isAlive()?
 
 ###FEATURE REQUESTS
+- functions could be a lot smaller
+- redo player class
+    - player has a
+        - board
+    - create methods for classes
+        - ship.setLocation()
+        - ship.getLocation()
+        - ship.isAlive()?
 - multiplayer
     - sanitize user names?
         - is this even needed?
